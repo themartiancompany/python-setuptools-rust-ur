@@ -1,6 +1,6 @@
 pkgbase = python-setuptools-rust
 	pkgdesc = Compile and distribute Python extensions written in rust as easily as if they were written in C.
-	pkgver = 1.8.0
+	pkgver = 1.8.1
 	pkgrel = 1
 	url = https://github.com/PyO3/setuptools-rust
 	arch = any
@@ -18,7 +18,7 @@ pkgbase = python-setuptools-rust
 	depends = rust
 	depends = python-setuptools
 	depends = python-semantic-version
-	source = git+https://github.com/PyO3/setuptools-rust.git#commit=558d7eb20438021f1a5fa6ae587793b4528d0388
+	source = git+https://github.com/PyO3/setuptools-rust.git#commit=2aa1ca490de98631e660e87462e338023cd2c69c
 	sha512sums = SKIP
 
 pkgname = python-setuptools-rust
