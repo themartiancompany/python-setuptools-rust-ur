@@ -1,41 +1,107 @@
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Maintainer: Truocolo <truocolo@aol.com>
+# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: codedust
 # Contributor: Dario Ostuni <dario.ostuni@gmail.com>
 # Contributor: Clayton Craft <clayton at craftyguy dot net>
 
-pkgname=python-setuptools-rust
+_py='python'
+_pkg=setuptools-rust
+pkgname="${_py}-${_pkg}"
 pkgver=1.8.1
 _commit=2aa1ca490de98631e660e87462e338023cd2c69c
 pkgrel=1
-pkgdesc="Compile and distribute Python extensions written in rust as easily as if they were written in C."
-arch=('any')
-license=('MIT')
-url="https://github.com/PyO3/setuptools-rust"
-depends=('rust' 'python-setuptools' 'python-semantic-version')
-makedepends=('git' 'python-build' 'python-installer' 'python-wheel' 'python-setuptools-scm')
-checkdepends=('python-pytest' 'python-pytest-benchmark' 'python-beautifulsoup4' 'python-lxml' 'python-cffi')
-source=("git+https://github.com/PyO3/setuptools-rust.git#commit=$_commit")
-sha512sums=('SKIP')
+pkgdesc=(
+  "Compile and distribute Python extensions"
+  "written in rust as easily as if they were written in C."
+)
+pkgdesc="${_pkcdesc[*]}"
+arch=(
+  'any'
+)
+license=(
+  'MIT'
+)
+_http="https://github.com"
+_ns="PyO3"
+url="${_http}/${_ns}/${_pkg}"
+depends=(
+  'rust'
+  "${_py}-setuptools"
+  "${_py}-semantic-version"
+)
+makedepends=(
+  'git'
+  "${_py}-build"
+  "${_py}-installer"
+  "${_py}-wheel"
+  "${_py}-setuptools-scm"
+)
+checkdepends=(
+  "${_py}-pytest"
+  "${_py}-pytest-benchmark"
+  "${_py}-beautifulsoup4"
+  "${_py}-lxml"
+  "${_py}-cffi"
+)
+source=(
+  "git+${url}.git#commit=$_commit"
+)
+sha512sums=(
+  'SKIP'
+)
 
 build() {
-  cd setuptools-rust
-  python -m build -nw
+  cd \
+    "${_pkg}"
+  "${_py}" \
+    -m \
+      build \
+    -nw
 }
 
 check() {
-  cd setuptools-rust
-  for _dir in examples/*; do
-    pushd $_dir
-    PYTHONPATH="$PWD/../.." python -m build -nw
-    python -m installer -d tmp_install dist/*.whl
-    [[ -d tests || -d test ]] && PYTHONPATH="$PWD/tmp_install/usr/lib/python3.11/site-packages" pytest tests
+  cd \
+    "${_pkg}"
+  for _dir \
+    in examples/*; do
+    pushd \
+      "${_dir}"
+    PYTHONPATH="$PWD/../.." \
+    "${_py}" \
+      -m build \
+      -nw
+    "${_py}" \
+      -m \
+        installer \
+      -d \
+        tmp_install \
+      dist/*.whl
+    [[ -d tests || -d test ]] && \
+      PYTHONPATH="$PWD/tmp_install/usr/lib/python3.11/site-packages" \
+      pytest \
+        tests
     popd
   done
-  pytest --doctest-modules setuptools_rust
+  pytest \
+    --doctest-modules \
+    setuptools_rust
 }
 
 package() {
-  cd setuptools-rust
-  python -m installer -d "$pkgdir" dist/*.whl
-  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+  cd \
+    "${_pkg}"
+  "${_py}" \
+    -m \
+      installer \
+    --destdir="${pkgdir}" \
+    dist/*.whl
+  install \
+    -Dm644 \
+    LICENSE \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
+
