@@ -13,7 +13,7 @@ pkgname="${_py}-${_pkg}"
 pkgver=1.8.1
 _commit=2aa1ca490de98631e660e87462e338023cd2c69c
 pkgrel=1
-pkgdesc=(
+_pkgdesc=(
   "Compile and distribute Python extensions"
   "written in rust as easily as if they were written in C."
 )
