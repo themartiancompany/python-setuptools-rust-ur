@@ -7,7 +7,16 @@
 # Contributor: Dario Ostuni <dario.ostuni@gmail.com>
 # Contributor: Clayton Craft <clayton at craftyguy dot net>
 
-_py='python'
+_py="python"
+_pyver="$( \
+  "${_py}" \
+    -V | \
+    awk \
+      '{print $2}')"
+_pymajver="${_pyver%.*}"
+_pyminver="${_pymajver#*.}"
+_pynextver="${_pymajver%.*}.$(( \
+  ${_pyminver} + 1))"
 _pkg=setuptools-rust
 pkgname="${_py}-${_pkg}"
 pkgver=1.8.1
@@ -31,6 +40,8 @@ depends=(
   'rust'
   "${_py}-setuptools"
   "${_py}-semantic-version"
+  "${_py}>=${_pymajver}"
+  "${_py}<${_pynextver}"
 )
 makedepends=(
   'git'
